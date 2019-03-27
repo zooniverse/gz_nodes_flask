@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gz-nodes-flask
+  labels:
+    app: gz-nodes-flask
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gz-nodes-flask
+  template:
+    metadata:
+      labels:
+        app: gz-nodes-flask
+    spec:
+      containers:
+        - name: gz-nodes-flask-app
+          image: zooniverse/gz-nodes-flask:__IMAGE_TAG__
+          ports:
+            - containerPort: 80
+          env:
+          - name: GZ_NODES_SETTINGS
+            value: "gz_nodes.cfg"
+          volumeMounts:
+          - name: gz-nodes-cfg
+            mountPath: "/app/instance/gz_nodes.cfg"
+            subPath: "gz_nodes.cfg"
+            readOnly: true
+      volumes:
+      - name: gz-nodes-cfg
+        secret:
+          secretName: gz-nodes-cfg
