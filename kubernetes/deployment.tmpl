@@ -17,6 +17,13 @@ spec:
       containers:
         - name: gz-nodes-flask-app
           image: zooniverse/gz-nodes-flask:working
+          resources:
+             requests:
+               memory: "30Mi"
+               cpu: "10m"
+             limits:
+               memory: "30Mi"
+               cpu: "500m"
           ports:
             - containerPort: 80
           env:
